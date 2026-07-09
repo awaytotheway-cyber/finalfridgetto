@@ -17,7 +17,7 @@ export default function MainHeader() {
             <img
               src="/ChatGPT_Image_Jul_8,_2026,_02_13_42_PM.png"
               alt="Fridgetto"
-              className="h-12 w-auto object-contain"
+              className="h-24 w-auto object-contain"
             />
           </div>
 
