@@ -7,17 +7,15 @@ import MainHeader from './components/MainHeader';
 import IngredientInventory from './components/IngredientInventory';
 import RouletteWheel from './components/RouletteWheel';
 import ReverseLookupEngine from './components/ReverseLookupEngine';
-import ActiveKitchenView from './components/ActiveKitchenView';
-import { DIETARY_FILTERS, type DietaryFilter, type Recipe } from './lib/types';
+import { DIETARY_FILTERS, type DietaryFilter } from './lib/types';
 
-type View = 'roulette' | 'reverse' | 'kitchen';
+type View = 'roulette' | 'reverse';
 
 function Dashboard() {
   const [view, setView] = useState<View>('roulette');
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [dietaryFilters, setDietaryFilters] = useState<DietaryFilter[]>(DIETARY_FILTERS);
-  const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);
-
+  
   const addIngredient = (item: string) => {
     setIngredients((prev) => [...prev, item]);
   };
@@ -118,22 +116,6 @@ function Dashboard() {
               transition={{ type: 'spring', stiffness: 100, damping: 15 }}
             >
               <ReverseLookupEngine />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Kitchen view overlay */}
-        <AnimatePresence>
-          {activeRecipe && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <ActiveKitchenView
-                recipe={activeRecipe}
-                onBack={() => setActiveRecipe(null)}
-              />
             </motion.div>
           )}
         </AnimatePresence>
