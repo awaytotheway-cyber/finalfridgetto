@@ -30,7 +30,7 @@ export default function ActiveKitchenView({ recipe, onBack }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="space-y-10"
+      className="space-y-10 pt-8"
     >
       {/* Back button */}
       <button

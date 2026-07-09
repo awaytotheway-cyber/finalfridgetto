@@ -5,6 +5,7 @@ import type { Recipe } from '../lib/types';
 import { generateRecipes } from '../lib/gemini';
 import { supabase } from '../lib/supabase';
 import RecipeCard from './RecipeCard';
+import ActiveKitchenView from './ActiveKitchenView';
 
 type Props = {
   ingredients: string[];
@@ -16,6 +17,7 @@ export default function RouletteWheel({ ingredients, dietaryFilters }: Props) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
   const rotationRef = useRef(0);
@@ -233,10 +235,28 @@ export default function RouletteWheel({ ingredients, dietaryFilters }: Props) {
                     recipe={recipe}
                     onSave={() => handleSave(recipe)}
                     saved={savedIds.has(recipe.title)}
+                    onOpen={() => setActiveRecipe(recipe)}
                   />
                 </motion.div>
               ))}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Kitchen view inline */}
+      <AnimatePresence>
+        {activeRecipe && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+          >
+            <ActiveKitchenView
+              recipe={activeRecipe}
+              onBack={() => setActiveRecipe(null)}
+            />
           </motion.div>
         )}
       </AnimatePresence>
