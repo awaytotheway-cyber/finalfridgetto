@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens — Subhadra Agro
+   Every color/font/radius in the UI comes from here. Tailwind v4 turns
+   each --color-* into utilities (bg-cream, text-forest, border-line…).
+------------------------------------------------------------------- */
+@theme {
+  --color-cream: #faf7f0;
+  --color-parchment: #f1ebdd;
+  --color-forest: #344e41;
+  --color-sage: #3a5a40;
+  --color-moss: #a3b18a;
+  --color-terracotta: #b5653a;
+  --color-terracotta-dark: #9a5230;
+  --color-mustard: #d4a537;
+  --color-charcoal: #2b2b28;
+  --color-stone: #6b675e;
+  --color-line: #e4dccb;
+
+  --font-serif: var(--font-fraunces), "Georgia", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1rem;
+
+  --shadow-soft: 0 1px 2px rgb(74 52 30 / 0.04), 0 8px 24px -8px rgb(74 52 30 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(74 52 30 / 0.05), 0 24px 48px -16px rgb(74 52 30 / 0.22);
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-charcoal font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif text-forest;
+    font-optical-sizing: auto;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  ::selection {
+    @apply bg-moss/50 text-forest;
+  }
+
+  /* One consistent, visible focus style for keyboard users */
+  :focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Small tracked uppercase label used above headings */
+  .eyebrow {
+    @apply text-[0.72rem] font-medium uppercase tracking-[0.22em] text-terracotta;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+  }
+}
+
+/* Paper grain — a fixed SVG-noise overlay at very low opacity */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.25 0 0 0 0 0.15 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Shimmer for skeleton loaders */
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-parchment);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.5), transparent);
+  animation: shimmer 1.6s infinite;
+}
