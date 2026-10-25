@@ -215,7 +215,7 @@ export const products: Product[] = [
     id: "p-amla",
     slug: "amla-murabba",
     name: "Amla Murabba",
-    tagline: "Slow-cooked · Grandma's recipe",
+    tagline: "Slow-cooked · In jaggery",
     category: "herbal-wellness",
     price: 279,
     size: "400 g",
